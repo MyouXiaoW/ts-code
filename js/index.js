@@ -17,6 +17,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var string = '你好ts';
 //2.ts中的数据类型
 /**
@@ -283,3 +289,103 @@ setData('11', '222');
 var myGetData = function (value) {
     return value;
 };
+//github 搜索方法 in:name xxxx stars>1000 in:readme xxxx in:description xxxx language:java pushed>2019-09-3
+//6.4 把类当作参数的泛型类
+/**
+ * 定一个user类这个类的作用就是映射数据库字段
+ * 然后定义一个 MysqlDb的类这个类用于操作数据库
+ * 然后把user类作为参数传入到MysqlDb中
+ */
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+var MysqlDb = /** @class */ (function () {
+    function MysqlDb() {
+    }
+    MysqlDb.prototype.add = function (info) {
+        console.log(info);
+        return true;
+    };
+    return MysqlDb;
+}());
+var u = new User();
+u.username = '张三';
+u.password = '1233213';
+var Db = new MysqlDb();
+Db.add(u);
+var MysqlDbI = /** @class */ (function () {
+    function MysqlDbI() {
+    }
+    MysqlDbI.prototype.add = function (info) {
+        throw new Error("Method not implemented.");
+    };
+    MysqlDbI.prototype.update = function (info, id) {
+        throw new Error("Method not implemented.");
+    };
+    MysqlDbI.prototype.delete = function (id) {
+        throw new Error("Method not implemented.");
+    };
+    MysqlDbI.prototype.get = function (id) {
+        throw new Error("Method not implemented.");
+    };
+    return MysqlDbI;
+}());
+var User1 = /** @class */ (function () {
+    function User1() {
+    }
+    return User1;
+}());
+//ts的模块
+/**
+ * 内部模块叫命名空间
+ * 外部模块叫模块
+ */
+//命名空间
+var ab;
+(function (ab) {
+    function aa() {
+        console.log('111');
+    }
+    ab.aa = aa;
+})(ab || (ab = {}));
+var aa = ab.aa;
+//装饰器
+//普通装饰器
+function logClass(params) {
+    //params 就是当前类
+    console.log(params);
+}
+//装饰器工厂
+function factory() {
+    return logClass;
+}
+var HttpClient = /** @class */ (function () {
+    function HttpClient() {
+    }
+    HttpClient = __decorate([
+        factory()
+    ], HttpClient);
+    return HttpClient;
+}());
+//类装饰器
+(function (HttpClient_1) {
+    function logClass(target) {
+        return /** @class */ (function (_super) {
+            __extends(class_1, _super);
+            function class_1() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return class_1;
+        }(target));
+    }
+    var HttpClient = /** @class */ (function () {
+        function HttpClient() {
+        }
+        HttpClient = __decorate([
+            logClass
+        ], HttpClient);
+        return HttpClient;
+    }());
+})(HttpClient || (HttpClient = {}));

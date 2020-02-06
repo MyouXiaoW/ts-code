@@ -389,3 +389,122 @@ interface ConfigFn2<T>{
 var myGetData:ConfigFn2<string> = function<T>(value:T):T{
     return value
 }
+
+//github 搜索方法 in:name xxxx stars>1000 in:readme xxxx in:description xxxx language:java pushed>2019-09-3
+
+//6.4 把类当作参数的泛型类
+/**
+ * 定一个user类这个类的作用就是映射数据库字段
+ * 然后定义一个 MysqlDb的类这个类用于操作数据库
+ * 然后把user类作为参数传入到MysqlDb中
+ */
+
+ class User{
+     username:string |undefined
+     password:string | undefined
+ }
+
+ class MysqlDb<T>{
+
+     add(info:T):boolean{
+         console.log(info)
+        return true
+     }
+ }
+
+ var u = new User();
+ u.username = '张三'
+ u.password = '1233213'
+
+ var Db = new MysqlDb<User>()
+
+ Db.add(u)
+
+/**
+ * 功能：定义一个操作数据的库 支持Mysql Mssql MongoDb
+ * 要求它们的功能都一样，都有add update delete get方法
+ * 注意约束规范，以及代码重用 
+ *
+ */
+
+ interface DBI<T>{
+     add(info:T):boolean;
+     update(info:T,id:number):boolean;
+     delete(id:number):boolean;
+     get(id:number):any[];
+ }
+
+ class  MysqlDbI<T> implements DBI<T>{
+     add(info: T): boolean {
+         throw new Error("Method not implemented.");
+     }     
+     update(info: T, id: number): boolean {
+         throw new Error("Method not implemented.");
+     }
+     delete(id: number): boolean {
+         throw new Error("Method not implemented.");
+     }
+     get(id: number): any[] {
+         throw new Error("Method not implemented.");
+     }
+ }
+
+ class User1{
+     username:string|undefined
+     password:string|undefined
+ }
+
+
+ //ts的模块
+ /**
+  * 内部模块叫命名空间
+  * 外部模块叫模块
+  */
+
+  //命名空间
+  namespace ab{
+    export function aa(){
+        console.log('111')
+    }
+  }
+
+  const aa = ab.aa
+
+
+  //装饰器
+  
+
+  //普通装饰器
+  function logClass(params:any){
+    //params 就是当前类
+    console.log(params)
+  }
+
+  //装饰器工厂
+  function factory(){
+      return logClass
+  }
+
+  @factory()
+  class HttpClient{
+
+
+
+  }
+
+  //类装饰器
+  namespace HttpClient{
+      function logClass(target:any){
+
+        return class extends target{
+
+        }
+      }
+
+      @logClass
+      class HttpClient{
+
+      }
+
+  }
+ 
