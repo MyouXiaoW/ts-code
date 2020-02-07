@@ -507,4 +507,15 @@ var myGetData:ConfigFn2<string> = function<T>(value:T):T{
       }
 
   }
+
+  //属性装饰器
+
+  //方法装饰器
+  function logMethod(){
+      return function(target:any,methodName:any,desc:any){
+        
+      }
+  }
+
+  //方法参数装饰器
  

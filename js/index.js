@@ -389,3 +389,10 @@ var HttpClient = /** @class */ (function () {
         return HttpClient;
     }());
 })(HttpClient || (HttpClient = {}));
+//属性装饰器
+//方法装饰器
+function logMethod() {
+    return function (target, methodName, desc) {
+    };
+}
+//方法参数装饰器
